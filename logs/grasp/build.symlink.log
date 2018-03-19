@@ -1,0 +1,4 @@
+Symlinking /home/dario/FrankaGrasp/devel/share/grasp/cmake/graspConfig.cmake
+Symlinking /home/dario/FrankaGrasp/devel/share/grasp/cmake/graspConfig-version.cmake
+Symlinking /home/dario/FrankaGrasp/devel/lib/grasp/grasp_node
+Symlinking /home/dario/FrankaGrasp/devel/lib/pkgconfig/grasp.pc

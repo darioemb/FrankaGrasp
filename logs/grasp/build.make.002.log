@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target grasp_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/grasp_node.dir/src/grasp_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/dario/FrankaGrasp/devel/.private/grasp/lib/grasp/grasp_node[0m
+[100%] Built target grasp_node

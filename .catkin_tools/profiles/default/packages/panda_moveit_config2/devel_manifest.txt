@@ -1,0 +1,4 @@
+panda_moveit_config2
+/home/dario/FrankaGrasp/devel/.private/panda_moveit_config2/share/panda_moveit_config2/cmake/panda_moveit_config2Config.cmake /home/dario/FrankaGrasp/devel/share/panda_moveit_config2/cmake/panda_moveit_config2Config.cmake
+/home/dario/FrankaGrasp/devel/.private/panda_moveit_config2/share/panda_moveit_config2/cmake/panda_moveit_config2Config-version.cmake /home/dario/FrankaGrasp/devel/share/panda_moveit_config2/cmake/panda_moveit_config2Config-version.cmake
+/home/dario/FrankaGrasp/devel/.private/panda_moveit_config2/lib/pkgconfig/panda_moveit_config2.pc /home/dario/FrankaGrasp/devel/lib/pkgconfig/panda_moveit_config2.pc
