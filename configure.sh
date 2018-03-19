@@ -1,6 +1,6 @@
 CURR=$PWD
 
-echo -e "\ee[33mInstalling panda-moveit-config dependencies\e[39m"
+echo -e "\e[33mInstalling panda-moveit-config dependencies\e[39m"
 sudo apt-get install ros-kinetic-panda-moveit-config
 echo -e "\e[33mInstalled dependencies.\e[39m"
 
@@ -18,5 +18,5 @@ else
 
 	echo -e "\e[32m######### libfranka compiled correctly!\e[39m"
 fi
-
+cd $CURR
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build
