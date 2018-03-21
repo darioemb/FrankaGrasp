@@ -18,5 +18,9 @@ else
 
 	echo -e "\e[32m######### libfranka compiled correctly!\e[39m"
 fi
+<<<<<<< HEAD
+=======
+
+>>>>>>> a8e6088be5655e00b5384659187a0853ca5cc4e5
 cd $CURR
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build
