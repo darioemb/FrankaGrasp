@@ -9,6 +9,9 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="base">
+        <joint name="world_joint" />
+    </group>
     <group name="panda_arm">
         <link name="panda_link0" />
         <link name="panda_link1" />
@@ -78,7 +81,9 @@
         <joint name="panda_joint7" value="0.785" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="hand" parent_link="panda_hand" group="hand" parent_group="panda_arm_hand" />
+    <end_effector name="hand" parent_link="panda_hand" group="hand" />
+    <virtual_joint name="world_joint" type="planar" parent_frame="odom_combined" child_link="panda_link0" />
+    <passive_joint name ="world_joint" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="panda_hand" link2="panda_leftfinger" reason="Adjacent" />
     <disable_collisions link1="panda_hand" link2="panda_link3" reason="Never" />
