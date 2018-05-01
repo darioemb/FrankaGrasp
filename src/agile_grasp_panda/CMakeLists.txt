@@ -18,8 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   moveit_core
   message_generation
+  agile_grasp
 )
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -77,19 +77,19 @@ find_package(Boost REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-add_message_files(DIRECTORY msg
-                  FILES
-                  CloudSized.msg 
-                  Grasp.msg 
-                  Grasps.msg)
+# add_message_files(DIRECTORY msg
+#                   FILES
+#                   CloudSized.msg 
+#                   Grasp.msg 
+#                   Grasps.msg)
 
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  sensor_msgs 
-  std_msgs  # Or other packages containing msgs
-)
+# ## Generate added messages and services with any dependencies listed here
+# generate_messages(
+#   DEPENDENCIES
+#   geometry_msgs
+#   sensor_msgs 
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -221,9 +221,10 @@ include_directories(
 add_executable(moveit_bridge_pub
   src/moveit_bridge_pub.cpp
 )
-add_dependencies(moveit_bridge_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(moveit_bridge_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
 target_link_libraries(moveit_bridge_pub
   ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
 )
 
 add_executable(moveit_bridge_sub
@@ -232,4 +233,5 @@ add_executable(moveit_bridge_sub
 add_dependencies(moveit_bridge_sub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(moveit_bridge_sub
   ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
 ) 

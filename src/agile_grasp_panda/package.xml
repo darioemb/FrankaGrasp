@@ -62,9 +62,6 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>moveit_core</exec_depend>
 
-
-
-
 <build_depend>message_generation</build_depend>
 <exec_depend>message_runtime</exec_depend>
 
@@ -73,6 +70,7 @@
 <depend>actionlib_msgs</depend>
 
 
+<depend>agile_grasp</depend>
   <export>
     <!-- Other tools can request additional information be placed here -->
     

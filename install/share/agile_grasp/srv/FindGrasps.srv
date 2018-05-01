@@ -1,0 +1,7 @@
+sensor_msgs/PointCloud2 object_cloud
+float64 approach_offset
+---
+agile_grasp/Grasp[] grasps	# the grasps in agile_grasp format
+geometry_msgs/PoseStamped[] grasp_poses	# the grasps in ROS format
+geometry_msgs/PoseStamped[] approach_poses	# approach poses for the grasps in ROS format
+

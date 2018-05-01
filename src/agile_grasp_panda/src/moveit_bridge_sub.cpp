@@ -1,59 +1,66 @@
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include <agile_grasp_panda/Grasps.h>
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
-void chatterCallback(const agile_grasp_panda::Grasps& msg)
+#include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/planning_scene_interface/planning_scene_interface.h>
+
+#include <moveit_msgs/DisplayRobotState.h>
+#include <moveit_msgs/DisplayTrajectory.h>
+
+#include <moveit_msgs/AttachedCollisionObject.h>
+#include <moveit_msgs/CollisionObject.h>
+
+#include <ros/ros.h>
+#include <std_msgs/Float64MultiArray.h>
+
+#include<iostream>
+
+//torus width = 0.0014;
+
+static const std::string PLANNING_GROUP = "panda_arm";
+moveit::planning_interface::MoveGroupInterface* move_group;
+moveit::planning_interface::MoveGroupInterface* hand_group;
+
+void moveToPose(const geometry_msgs::Pose &pose)
 {
-	ROS_INFO("I heard PD");
+  geometry_msgs::PoseStamped pp;
+  pp.header.frame_id="/panda_link0";
+  pp.pose=pose;
+  move_group->setPoseTarget(pp);
+  move_group->move();
+}
+std_msgs::Float64MultiArray referenceData;
+void agile_graspCallback(std_msgs::Float64MultiArrayConstPtr controlDataConstPtr)
+{
+  referenceData = *controlDataConstPtr;
+  geometry_msgs::Pose pose;
+  pose.position.x = 0.5;
+  pose.position.y = 0.0;
+  pose.position.z = 0.5;
+  pose.orientation.x = referenceData.data[0];
+  pose.orientation.y = referenceData.data[1];
+  pose.orientation.z = referenceData.data[2];
+  pose.orientation.w = referenceData.data[3];
+
+  moveToPose(pose);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	/**
-	 * The ros::init() function needs to see argc and argv so that it can perform
-	 * any ROS arguments and name remapping that were provided at the command line.
-	 * For programmatic remappings you can use a different version of init() which takes
-	 * remappings directly, but for most command-line programs, passing argc and argv is
-	 * the easiest way to do it.  The third argument to init() is the name of the node.
-	 *
-	 * You must call one of the versions of ros::init() before using any other
-	 * part of the ROS system.
-	 */
-	ros::init(argc, argv, "moveit_bridge");
+  /* code for main function */
+  ros::init(argc, argv, "pose_varie");
+  ros::NodeHandle nh("~");
+  ros::AsyncSpinner spinner(2);
+  
+  move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
+  hand_group = new moveit::planning_interface::MoveGroupInterface("panda_hand");
 
-	/**
-	 * NodeHandle is the main access point to communications with the ROS system.
-	 * The first NodeHandle constructed will fully initialize this node, and the last
-	 * NodeHandle destructed will close down the node.
-	 */
-	ros::NodeHandle n;
+  referenceData.data.resize(4);
 
-	/**
-	 * The subscribe() call is how you tell ROS that you want to receive messages
-	 * on a given topic.  This invokes a call to the ROS
-	 * master node, which keeps a registry of who is publishing and who
-	 * is subscribing.  Messages are passed to a callback function, here
-	 * called chatterCallback.  subscribe() returns a Subscriber object that you
-	 * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
-	 * object go out of scope, this callback will automatically be unsubscribed from
-	 * this topic.
-	 *
-	 * The second parameter to the subscribe() function is the size of the message
-	 * queue.  If messages are arriving faster than they are being processed, this
-	 * is the number of messages that will be buffered up before beginning to throw
-	 * away the oldest ones.
-	 */
-	 ROS_INFO("BEFORE subscribin");
-	ros::Subscriber sub = n.subscribe("/find_grasps/grasps", 1, chatterCallback);
+  ros::Subscriber sub = nh.subscribe("/muovi_pose", 1, agile_graspCallback);
 
-	/**
-	 * ros::spin() will enter a loop, pumping callbacks.  With this version, all
-	 * callbacks will be called from within this thread (the main one).  ros::spin()
-	 * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
-	 */
-	ros::spin();
 
-	return 0;
+  spinner.start();
+
+
+  ros::waitForShutdown();
+
+  return 0;
 }
