@@ -31,15 +31,20 @@ void agile_graspCallback(std_msgs::Float64MultiArrayConstPtr controlDataConstPtr
 {
   referenceData = *controlDataConstPtr;
   geometry_msgs::Pose pose;
-  pose.position.x = 0.5;
-  pose.position.y = 0.0;
-  pose.position.z = 0.5;
-  pose.orientation.x = referenceData.data[0];
-  pose.orientation.y = referenceData.data[1];
-  pose.orientation.z = referenceData.data[2];
-  pose.orientation.w = referenceData.data[3];
+  pose.position.x = referenceData.data[0];
+  pose.position.y = referenceData.data[1];
+  pose.position.z = referenceData.data[2];
+  // pose.orientation.x = 0.923955;
+  // pose.orientation.y = -0.382501;
+  // pose.orientation.z = -0.000045;
+  // pose.orientation.w = 0.000024;
 
-  moveToPose(pose);
+  // moveToPose(pose);
+
+  move_group->setOrientationTarget(referenceData.data[3],referenceData.data[4],referenceData.data[5],referenceData.data[6],"eef");
+
+  move_group->move();
+  
 }
 
 int main(int argc, char* argv[])
@@ -51,8 +56,9 @@ int main(int argc, char* argv[])
   
   move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
   hand_group = new moveit::planning_interface::MoveGroupInterface("panda_hand");
+  ROS_INFO("eef: %s",move_group->getEndEffector().c_str());
 
-  referenceData.data.resize(4);
+  referenceData.data.resize(7);
 
   ros::Subscriber sub = nh.subscribe("/muovi_pose", 1, agile_graspCallback);
 

@@ -45,8 +45,7 @@
   </include>
 
   <!-- Run VREP and load the default config to see the state of the move_group node -->
-  <node name="vrep" pkg="agile_grasp_panda" type="vrep.sh" args="-q $(find agile_grasp_panda)/vrep/franka_rings.ttt">
-  </node>
+  <node name="vrep" pkg="agile_grasp_panda" type="vrep.sh" args="-q $(find agile_grasp_panda)/vrep/thor.ttt" />
 
   <!--<node name="moveit_bridge" pkg="agile_grasp_panda" type="moveit_bridge_pub" output="screen">
   </node>-->

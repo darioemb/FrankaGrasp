@@ -235,3 +235,11 @@ target_link_libraries(moveit_bridge_sub
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 ) 
+
+add_executable(pick_and_place_pub
+  src/pick_and_place_pub.cpp
+)
+add_dependencies(pick_and_place_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(pick_and_place_pub
+  ${catkin_LIBRARIES}
+)

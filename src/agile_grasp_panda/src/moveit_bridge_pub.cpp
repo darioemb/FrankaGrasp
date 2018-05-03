@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
   ros::AsyncSpinner spinner(2);
   
   move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
-  hand_group = new moveit::planning_interface::MoveGroupInterface("panda_hand");
+  hand_group = new moveit::planning_interface::MoveGroupInterface("hand");
 
 
   ros::Subscriber sub = nh.subscribe("/find_grasps/grasps", 1, agile_graspCallback);
@@ -82,6 +82,9 @@ int main(int argc, char* argv[])
 
 
   ros::waitForShutdown();
+
+  delete move_group;
+  delete hand_group;
 
   return 0;
 }
