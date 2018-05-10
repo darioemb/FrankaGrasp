@@ -16,103 +16,164 @@
 #include<moveit_msgs/CollisionObject.h>
 #include <ros/ros.h>
 
+#include <std_msgs/Bool.h>
+
 #include<iostream>
 
-//torus width = 0.0014;
+geometry_msgs::PoseStamped home;
+geometry_msgs::PoseStamped ready;
+geometry_msgs::PoseStamped pre;
+
+geometry_msgs::PoseStamped offset;
+
+agile_grasp::Grasps grasps;
+
+ros::Publisher pub_off;
+ros::Publisher pub_;
+ros::Subscriber sub_;
+
+const double torus_width = 0.014;
 
 static const std::string PLANNING_GROUP = "panda_arm";
+static const std::string PLANNING_EEF = "panda_hand";
 moveit::planning_interface::MoveGroupInterface* move_group;
-moveit::planning_interface::MoveGroupInterface* hand_group;
+moveit::planning_interface::MoveGroupInterface* move_eef;
 
-void openGripper(trajectory_msgs::JointTrajectory& p)
+int computeBestGrasp(const agile_grasp::Grasps& msg){return 0;}
+
+
+void cmd_Gripper(const double panda_finger_joint1, const double panda_finger_joint2)
 {
-	p.joint_names.resize(3);
-	p.joint_names[0] = "panda_joint7";
-	p.joint_names[1] = "panda_finger_joint1";
-	p.joint_names[2] = "panda_finger_joint2";
-
-	p.points.resize(1);
-	p.points[0].positions.resize(3);
-	p.points[0].positions[0] = 1.0;
-	p.points[0].positions[1] = 0.477;
-	p.points[0].positions[2] = 0.477;
+  std::vector<std::string> joint_names = move_eef->getJointNames();
+  move_eef->setJointValueTarget(joint_names[1], panda_finger_joint1);
+  move_eef->setJointValueTarget(joint_names[0], panda_finger_joint2);
+  move_eef->move();
 }
 
-void closeGripper(trajectory_msgs::JointTrajectory& p)
-{
-	p.joint_names.resize(3);
-	p.joint_names[0] = "panda_joint7";
-	p.joint_names[1] = "panda_finger_joint1";
-	p.joint_names[2] = "panda_finger_joint2";
+//------------------------------------------------------------------------------
 
-	p.points.resize(1);
-	p.points[0].positions.resize(3);
-	p.points[0].positions[0] = 0.0;
-	p.points[0].positions[1] = 0.0;
-	p.points[0].positions[2] = 0.0;
+void pick()
+{
+  auto point = grasps.grasps[computeBestGrasp(grasps)];
+  offset.pose.position.x=-point.surface_center.x-0.014;
+  offset.pose.position.y=-point.surface_center.y-0.014;
+  offset.pose.position.z=-point.surface_center.z;
+  geometry_msgs::Pose agile_pose;
+  agile_pose.position.x = point.surface_center.x + 0.5;
+  agile_pose.position.y = point.surface_center.y;
+  agile_pose.position.z = pre.pose.position.z;
+  agile_pose.orientation.x = 0.923955;
+  agile_pose.orientation.y = -0.382501;
+  agile_pose.orientation.z = -0.00045;
+  agile_pose.orientation.w = 0.000024;
+  move_group->setPoseTarget(agile_pose);
+  move_group->move();
+  agile_pose.position.z = point.surface_center.z + 0.1;
+  move_group->setPoseTarget(agile_pose);
+  move_group->move();
+  pub_off.publish(offset.pose);
+  cmd_Gripper(torus_width,torus_width);
+  std_msgs::Bool f;
+  f.data=true;
+  pub_.publish(f);
 }
 
-void agile_graspCallback(const agile_grasp::GraspsConstPtr& msg)
+void place()
 {
-  ROS_INFO("Grasp points received");
-
-  std::vector<moveit_msgs::Grasp> grasps;
-   
-  geometry_msgs::PoseStamped p;
-  p.header.frame_id = "/panda_link0";
-  p.pose.position.x = msg->grasps[0].surface_center.x+0.5;
-  p.pose.position.y = msg->grasps[0].surface_center.y;
-  p.pose.position.z = msg->grasps[0].surface_center.z+0.1;//14;
-  p.pose.orientation.x = -0.923955;
-  p.pose.orientation.y = -0.382501;
-  p.pose.orientation.z = -0.000045;
-  p.pose.orientation.w = 0.000024;
-
-  moveit_msgs::Grasp g;
-  g.grasp_pose = p;
-
-//   g.pre_grasp_approach.direction.vector.z = 1.0;
-  g.pre_grasp_approach.direction.header.frame_id = "/panda_link0";
-  g.pre_grasp_approach.min_distance = 0.45;
-  g.pre_grasp_approach.desired_distance = 0.5;
-
-  g.post_grasp_retreat.direction.header.frame_id = "/panda_link0";
-  g.post_grasp_retreat.direction.vector.z = 1.0;
-  g.post_grasp_retreat.min_distance = 0.1;
-  g.post_grasp_retreat.desired_distance = 0.25;
-
-  openGripper(g.pre_grasp_posture);
-
-  closeGripper(g.grasp_posture);
-
-  grasps.push_back(g);
-  move_group->setSupportSurfaceName("");
-  move_group->pick("", grasps);
+  geometry_msgs::PoseStamped pioloTarget;
+  pioloTarget.header.frame_id="/panda_link0";
+  pioloTarget.pose.position.x = 0.5-offset.pose.position.x;
+  pioloTarget.pose.position.y = 0.25-offset.pose.position.y;
+  pioloTarget.pose.position.z = 0.20-offset.pose.position.z;
+  pioloTarget.pose.orientation.x = 0.923955;
+  pioloTarget.pose.orientation.y = -0.382501;
+  pioloTarget.pose.orientation.z = -0.00045;
+  pioloTarget.pose.orientation.w = 0.000024;
+  move_group->setPoseTarget(pioloTarget);
+  move_group->move();
+  cmd_Gripper(0.03, 0.03);
+  std_msgs::Bool f;
+  f.data=false;
+  pub_.publish(f);
 }
 
-int main(int argc, char* argv[])
+//------------------------------------------------------------------------------
+void grasp_callback(const agile_grasp::GraspsConstPtr& msg) 
 {
-  /* code for main function */
-  ros::init(argc, argv, "pick_and_place");
-  ros::NodeHandle nh("~");
-  ros::AsyncSpinner spinner(2);
-  
+  grasps=*msg;
+  // pre-posture on piolo
+  pre.header.frame_id="/panda_link0";
+  pre.pose.position.x = 0.5;
+  pre.pose.position.y = 0;
+  pre.pose.position.z = 0.20;
+  pre.pose.orientation.x = 0.923955;
+  pre.pose.orientation.y = -0.382501;
+  pre.pose.orientation.z = -0.000045;
+  pre.pose.orientation.w = 0.000024;
+  move_group->setPoseTarget(pre);
+  move_group->move();
+
+  cmd_Gripper(0.03, 0.03);
+  pick();
+  move_group->setPoseTarget(pre);
+  move_group->move();
+  place();
+  cmd_Gripper(0.01,0.01);
+  move_group->setPoseTarget(home);
+  move_group->move();
+}
+
+void init()
+{
   move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
-//   hand_group = new moveit::planning_interface::MoveGroupInterface("hand");
+  move_eef = new moveit::planning_interface::MoveGroupInterface(PLANNING_EEF);
 
-  ros::WallDuration(1.0).sleep();
+ 
+  home.header.frame_id = "/panda_link0";
+  home.pose.position.x = 0.50;
+  home.pose.position.y = 0.0;
+  home.pose.position.z = 0.40;
+  home.pose.orientation.x = 0.923955;
+  home.pose.orientation.y = -0.382501;
+  home.pose.orientation.z = -0.00045;
+  home.pose.orientation.w = 0.000024;
 
 
-  ros::Subscriber sub = nh.subscribe("/find_grasps/grasps", 1, agile_graspCallback);
+  // robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+  // robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  // planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
+  // robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
+  // std::cout<<robot_state<<"\n";
+  // robot_state::RobotState goal_state(robot_model);
 
+}
+
+void end()
+{
+  delete move_group;
+  delete move_eef;
+}
+
+int main(int argc, char **argv) {
+  ros::init(argc, argv, "agile_pick_place");
+
+  ros::NodeHandle nh_("~");
+
+  sub_ = nh_.subscribe("/find_grasps/grasps", 1, grasp_callback);
+  pub_ = nh_.advertise<std_msgs::Bool>("/attached", 1);
+  pub_off = nh_.advertise<geometry_msgs::Pose>("/offset_grasp", 1);
+
+  
+  ros::AsyncSpinner spinner(2);
+  init();  
   spinner.start();
 
-
-
+  move_group->setPoseTarget(home);
+  move_group->move();
+  
   ros::waitForShutdown();
 
-  delete move_group;
-  delete hand_group;
+  end();
 
   return 0;
 }

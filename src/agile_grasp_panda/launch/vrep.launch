@@ -1,10 +1,5 @@
 <launch>
 
-  <!-- By default, we do not start a database (it can be large) -->
-  <arg name="db" default="false" />
-  <!-- Allow user to specify database location -->
-  <arg name="db_path" default="$(find panda_moveit_config5)/default_warehouse_mongo_db" />
-
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
 
@@ -45,17 +40,6 @@
   </include>
 
   <!-- Run VREP and load the default config to see the state of the move_group node -->
-  <node name="vrep" pkg="agile_grasp_panda" type="vrep.sh" args="-q $(find agile_grasp_panda)/vrep/thor.ttt" />
-
-  <!--<node name="moveit_bridge" pkg="agile_grasp_panda" type="moveit_bridge_pub" output="screen">
-  </node>-->
-
-  <include file="$(find agile_grasp)/launch/single_camera_grasps.launch" />
-
-
-  <!-- If database loading was enabled, start mongodb as well -->
-  <include file="$(find panda_moveit_config5)/launch/default_warehouse_db.launch" if="$(arg db)">
-    <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
-  </include>
+  <node name="vrep" pkg="agile_grasp_panda" type="vrep.sh" args="-q $(find agile_grasp_panda)/data/franka_ring12_piolo3_bbFIX.ttt" />
 
 </launch>
