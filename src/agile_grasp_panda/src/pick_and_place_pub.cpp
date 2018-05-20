@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh_("~");
 
-  pick_place::PP<agile_grasp::GraspsConstPtr> pp(nh_);
+  pick_place::PP<agile_grasp::GraspsConstPtr> pp(nh_, "/find_grasps/grasps");
 
   ros::AsyncSpinner spinner(2);
 
