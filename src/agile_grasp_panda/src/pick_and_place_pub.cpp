@@ -23,60 +23,30 @@
 
 #include <iostream>
 
-
-// int computeBestGrasp()
-// {
-//   int index = 0;
-//   int i = 0;
-//   int min_so_far = 100;
-//   for (auto x : grasps.grasps)
-//   {
-//     if (min_so_far < std::abs(x.surface_center.x))
-//     {
-//       index = i;
-//       min_so_far = x.surface_center.x;
-//     }
-//     ++i;
-//   }
-//   std::cout << "--------------------\nBest grasp:\n"
-//             << grasps.grasps[index] << "\n--------------------\n";
-//   return index;
-// }
-
 namespace pick_place
 {
-template <>
-void PP<agile_grasp::GraspsConstPtr>::pick()
-{
-   auto point = grasp_point_msg->grasps[0];
-
-  offset.pose.position.y = -point.surface_center.y; //-torus_width;
-  offset.pose.position.x = -point.surface_center.x; //-torus_width;
-  offset.pose.position.z = -point.surface_center.z;
-
-  geometry_msgs::Pose agile_pose;
-  agile_pose.position.x = point.surface_center.x - pose_obj.pose.position.x;
-  agile_pose.position.y = point.surface_center.y + pose_obj.pose.position.y;
-  agile_pose.position.z = point.surface_center.z + 0.1;
-  agile_pose.orientation.x = 0.923955;
-  agile_pose.orientation.y = -0.382501;
-  agile_pose.orientation.z = -0.00045;
-  agile_pose.orientation.w = 0.000024;
-
-  move_group->setPoseTarget(agile_pose);
-  move_group->move();
-
-  pub_offset_obj.publish(offset);
-
-  cmd_Gripper(obj_width, obj_width);
-
-  flag.data=true;
-  pub_attach_obj.publish(flag);
-}
 template<>
-int PP<agile_grasp::GraspConstPtr>::compute_best_GraspPoint()
+void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
 {
-  return 0;
+  auto point = grasp_point_msg->grasps[0];
+
+  double alphax = atan(point.surface_center.y/point.surface_center.x);
+  double alphay = atan(point.surface_center.x/point.surface_center.y);
+
+  double dx = -cos(alphax)*K_obj_width;
+  double dy = -sin(alphay)*K_obj_width;
+
+  best_gp.header.frame_id = FRAME_ID;
+  best_gp.pose.position.x = point.surface_center.x+dx;
+  best_gp.pose.position.y = point.surface_center.y+dy;
+  best_gp.pose.position.z = point.surface_center.z;
+  best_gp.pose.orientation.x = K_orientation_x;
+  best_gp.pose.orientation.y = K_orientation_y;
+  best_gp.pose.orientation.z = K_orientation_z;
+  best_gp.pose.orientation.w = K_orientation_w;
+
+  ROS_INFO("Found BGP");
+  std::cout << best_gp << "\n";
 }
 } // namespace pick_place
 

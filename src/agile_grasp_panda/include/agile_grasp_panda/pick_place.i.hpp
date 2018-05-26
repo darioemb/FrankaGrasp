@@ -12,7 +12,8 @@ PP<T>::PP(ros::NodeHandle &nh_, std::string TOPIC)
 
   pub_attach_obj = nh_.advertise<std_msgs::Bool>("/attached", 1);
   pub_offset_obj = nh_.advertise<geometry_msgs::PoseStamped>("/offset_grasp", 1);
-
+  pub_from_to = nh_.advertise<std_msgs::Int16MultiArray>("from_to", 1);
+ 
   init();
   reset();
 };
@@ -79,10 +80,11 @@ void PP<T>::place()
 };
 
 template <typename T>
-void PP<T>::pick()
+void PP<T>::move(const geometry_msgs::PoseStamped point)
 {
-  assert(false && "Pick method must be implemented with explicit declaration!");
-};
+  move_group->setPoseTarget(point);
+  move_group->move();
+}
 
 template <typename T>
 void PP<T>::cmd_Gripper(const double panda_finger_joint1, const double panda_finger_joint2)
@@ -108,45 +110,56 @@ void PP<T>::pose_obj_Callback(const geometry_msgs::PoseStampedConstPtr &msg)
 template <typename T>
 void PP<T>::from_to_Callback(const std_msgs::Int16MultiArrayConstPtr &msg)
 {
-  move_group->setPoseTarget(home);
-  move_group->move();
-  grasp_Execution(msg->data.at(0), msg->data.at(1));
-  move_group->setPoseTarget(home);
-  move_group->move();
+  move(home);
+  grasp_Execution(msg->data.at(0), msg->data.at(1)); //<------------------------
+  move(home);
 };
 
 template <typename T>
-void PP<T>::grasp_Execution(int from, int to)
+void PP<T>::grasp_Execution(const int from, const int to)
 {
   id_pick_obj = from;
-  move_group->setPoseTarget(pre_piolo[from]);
-  move_group->move();
+  move(pre_piolo[from]);
 
   cmd_Gripper(K_open_eef, K_open_eef);
-
   pick();
-
-  move_group->setPoseTarget(pre_piolo[from]);
-  move_group->move();
+  move(pre_piolo[from]);
 
   pre_piolo[to].pose.position.x -= offset.pose.position.x;
   pre_piolo[to].pose.position.y -= offset.pose.position.y;
-  move_group->setPoseTarget(pre_piolo[to]);
-  move_group->move();
+  move(pre_piolo[to]);
 
   pre_piolo[to].pose.position.z = K_pre_place_z;  // place of obj
-  move_group->setPoseTarget(pre_piolo[to]);
-  move_group->move();
+  move(pre_piolo[to]);
 
   place();
-
   cmd_Gripper(K_close_eef, K_close_eef);
-  move_group->setPoseTarget(home);
-  move_group->move();
+  move(home);
+
   reset();
 };
 
 template <typename T>
-int PP<T>::compute_best_GraspPoint(){};
+void PP<T>::pick()
+{
+  compute_best_GraspPoint();
 
+  offset.pose.position.x = -best_gp.pose.position.x;
+  offset.pose.position.y = -best_gp.pose.position.y;
+  offset.pose.position.z = -best_gp.pose.position.z;
+  pub_offset_obj.publish(offset);
+
+  best_gp.pose.position.x -= pose_obj.pose.position.x;
+  best_gp.pose.position.y += pose_obj.pose.position.y;
+  best_gp.pose.position.z += K_height_fingers;
+  move(best_gp);
+
+  cmd_Gripper(K_obj_width, K_obj_width);
+  flag.data = true;
+  pub_attach_obj.publish(flag);
+}
+
+//---------------------------------[SPECIAL]------------------------------------
+template <typename T>
+void PP<T>::compute_best_GraspPoint(){};
 } // namespace pick_place
