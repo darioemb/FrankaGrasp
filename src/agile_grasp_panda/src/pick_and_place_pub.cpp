@@ -28,17 +28,27 @@ namespace pick_place
 template<>
 void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
 {
+  
+  std::ofstream fapproach("/home/sphero/code/FrankaGrasp/data_/approach.data");
+  std::ofstream faxis("/home/sphero/code/FrankaGrasp/data_/axis.data");
+  std::ofstream fcenter("/home/sphero/code/FrankaGrasp/data_/center.data");
+  std::ofstream fsurface("/home/sphero/code/FrankaGrasp/data_/surface.data");
+
+  ROS_INFO("Writing on files...");
+  for(auto x : grasp_point_msg->grasps)
+  {
+    fapproach<<x.approach.x<<" "<<x.approach.y<<" "<<x.approach.z<<"\n";
+    faxis<<x.axis.x<<" "<<x.axis.y<<" "<<x.axis.z<<"\n";
+    fcenter<<x.center.x<<" "<<x.center.y<<" "<<x.center.z<<"\n";
+    fsurface<<x.surface_center.x<<" "<<x.surface_center.y<<" "<<x.surface_center.z<<"\n";    
+  }
+  ROS_INFO("Write ended!");
+
   auto point = grasp_point_msg->grasps[0];
-
-  double alphax = atan(point.surface_center.y/point.surface_center.x);
-  double alphay = atan(point.surface_center.x/point.surface_center.y);
-
-  double dx = -cos(alphax)*K_obj_width;
-  double dy = -sin(alphay)*K_obj_width;
-
+  
   best_gp.header.frame_id = FRAME_ID;
-  best_gp.pose.position.x = point.surface_center.x+dx;
-  best_gp.pose.position.y = point.surface_center.y+dy;
+  best_gp.pose.position.x = (point.surface_center.x+point.center.x)/2;
+  best_gp.pose.position.y = (point.surface_center.y+point.center.y)/2;
   best_gp.pose.position.z = point.surface_center.z;
   best_gp.pose.orientation.x = K_orientation_x;
   best_gp.pose.orientation.y = K_orientation_y;

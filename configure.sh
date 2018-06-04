@@ -21,3 +21,10 @@ fi
 
 cd $CURR
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build
+
+cd src
+git clone --recursive https://github.com/utexas-bwi/agile_grasp.git
+cd agile_grasp
+git checkout origin/kinetic
+cd ../..
+catkin_make install

@@ -123,7 +123,12 @@ void PP<T>::grasp_Execution(const int from, const int to)
 
   cmd_Gripper(K_open_eef, K_open_eef);
   pick();
-  move(pre_piolo[from]);
+
+  // move(pre_piolo[from]);
+
+  best_gp.pose.position.z = 0.20;
+
+  move(best_gp);
 
   pre_piolo[to].pose.position.x -= offset.pose.position.x;
   pre_piolo[to].pose.position.y -= offset.pose.position.y;
@@ -139,9 +144,14 @@ void PP<T>::grasp_Execution(const int from, const int to)
   reset();
 };
 
+
 template <typename T>
 void PP<T>::pick()
 {
+  // sarebbe da calcolarsi il best grasp rispetto la posizione del piolo
+  // TODO:
+  // - inserire i punti di grasp in un array
+  // - per poter ottimizzare il compute best grasp
   compute_best_GraspPoint();
 
   offset.pose.position.x = -best_gp.pose.position.x;
@@ -160,6 +170,8 @@ void PP<T>::pick()
 }
 
 //---------------------------------[SPECIAL]------------------------------------
+
 template <typename T>
 void PP<T>::compute_best_GraspPoint(){};
-} // namespace pick_place
+
+}  // namespace pick_place

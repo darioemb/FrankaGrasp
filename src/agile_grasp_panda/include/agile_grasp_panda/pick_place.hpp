@@ -6,6 +6,7 @@
 #include <moveit_msgs/CollisionObject.h>
 #include <moveit_msgs/DisplayRobotState.h>
 #include <moveit_msgs/DisplayTrajectory.h>
+// #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <geometry_msgs/Pose.h>
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -42,7 +43,7 @@ public:
   void reset();
 
   void move(const geometry_msgs::PoseStamped point);
-  void pick();  // special
+  void pick(); 
   void place();
 
   void cmd_Gripper(const double panda_finger_joint1, const double panda_finger_joint2);

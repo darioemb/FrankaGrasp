@@ -1,5 +1,5 @@
 <launch>
-    <include file="$(find agile_grasp)/launch/single_camera_grasps.launch" />   
+    <include file="$(find agile_grasp_panda)/launch/single_camera_find_grasps.launch" />   
     <node name="pick_and_place_pub" pkg="agile_grasp_panda" type="pick_and_place_pub" output="screen">
     </node>
 </launch>
