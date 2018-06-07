@@ -4,3 +4,4 @@ devel/
 logs/
 .catkin_tools/
 .ycm_*
+install/
