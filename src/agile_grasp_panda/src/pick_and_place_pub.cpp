@@ -25,35 +25,48 @@
 
 namespace pick_place
 {
-template<>
+template <>
 void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
 {
-  
+
   std::ofstream fapproach("/home/sphero/code/FrankaGrasp/data_/approach.data");
   std::ofstream faxis("/home/sphero/code/FrankaGrasp/data_/axis.data");
   std::ofstream fcenter("/home/sphero/code/FrankaGrasp/data_/center.data");
   std::ofstream fsurface("/home/sphero/code/FrankaGrasp/data_/surface.data");
 
   ROS_INFO("Writing on files...");
-  for(auto x : grasp_point_msg->grasps)
+  for (auto x : grasp_point_msg->grasps)
   {
-    fapproach<<x.approach.x<<" "<<x.approach.y<<" "<<x.approach.z<<"\n";
-    faxis<<x.axis.x<<" "<<x.axis.y<<" "<<x.axis.z<<"\n";
-    fcenter<<x.center.x<<" "<<x.center.y<<" "<<x.center.z<<"\n";
-    fsurface<<x.surface_center.x<<" "<<x.surface_center.y<<" "<<x.surface_center.z<<"\n";    
+    fapproach << x.approach.x << " " << x.approach.y << " " << x.approach.z << "\n";
+    faxis << x.axis.x << " " << x.axis.y << " " << x.axis.z << "\n";
+    fcenter << x.center.x << " " << x.center.y << " " << x.center.z << "\n";
+    fsurface << x.surface_center.x << " " << x.surface_center.y << " " << x.surface_center.z << "\n";
   }
   ROS_INFO("Write ended!");
 
   auto point = grasp_point_msg->grasps[0];
-  
+
   best_gp.header.frame_id = FRAME_ID;
-  best_gp.pose.position.x = (point.surface_center.x+point.center.x)/2;
-  best_gp.pose.position.y = (point.surface_center.y+point.center.y)/2;
+  best_gp.pose.position.x = (point.surface_center.x + point.center.x) / 2;
+  best_gp.pose.position.y = (point.surface_center.y + point.center.y) / 2;
   best_gp.pose.position.z = point.surface_center.z;
-  best_gp.pose.orientation.x = K_orientation_x;
-  best_gp.pose.orientation.y = K_orientation_y;
-  best_gp.pose.orientation.z = K_orientation_z;
-  best_gp.pose.orientation.w = K_orientation_w;
+
+  // Orientation
+  double r = 0.0, p = 0.0, y = -M_PI / 2; // Rotate the previous pose by -90* about Z
+  tf::Quaternion q_rot(K_orientation_x, K_orientation_y, K_orientation_z, K_orientation_w), q_tmp, q_new;
+
+  q_tmp = tf::createQuaternionFromRPY(r, p, y);
+  q_new = q_rot * q_tmp; //from actual configuration rotate by -90* about Z
+
+  best_gp.pose.orientation.x = q_new.getAxis().getX();
+  best_gp.pose.orientation.y = q_new.getAxis().getY();
+  best_gp.pose.orientation.z = q_new.getAxis().getZ();
+  best_gp.pose.orientation.w = q_new.getW();
+
+  // best_gp.pose.orientation.x = K_orientation_x;
+  // best_gp.pose.orientation.y = K_orientation_y;
+  // best_gp.pose.orientation.z = K_orientation_z;
+  // best_gp.pose.orientation.w = K_orientation_w;
 
   ROS_INFO("Found BGP");
   std::cout << best_gp << "\n";

@@ -1,8 +1,0 @@
-prefix=/home/sphero/code/FrankaGrasp/install
-
-Name: agile_grasp_panda
-Description: Description of agile_grasp_panda
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/sphero/code/FrankaGrasp/install/lib 
-Requires: message_runtime

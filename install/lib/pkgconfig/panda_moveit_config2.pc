@@ -1,8 +1,0 @@
-prefix=/home/sphero/code/FrankaGrasp/install
-
-Name: panda_moveit_config2
-Description: Description of panda_moveit_config2
-Version: 0.3.0
-Cflags: 
-Libs: -L/home/sphero/code/FrankaGrasp/install/lib 
-Requires: 
