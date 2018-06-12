@@ -13,7 +13,7 @@ PP<T>::PP(ros::NodeHandle &nh_, std::string TOPIC)
   pub_attach_obj = nh_.advertise<std_msgs::Bool>("/attached", 1);
   pub_offset_obj = nh_.advertise<geometry_msgs::PoseStamped>("/offset_grasp", 1);
   pub_from_to = nh_.advertise<std_msgs::Int16MultiArray>("from_to", 1);
- 
+
   init();
   reset();
 };
@@ -134,7 +134,7 @@ void PP<T>::grasp_Execution(const int from, const int to)
   pre_piolo[to].pose.position.y -= offset.pose.position.y;
   move(pre_piolo[to]);
 
-  pre_piolo[to].pose.position.z = K_pre_place_z;  // place of obj
+  pre_piolo[to].pose.position.z = K_pre_place_z; // place of obj
   move(pre_piolo[to]);
 
   place();
@@ -143,7 +143,6 @@ void PP<T>::grasp_Execution(const int from, const int to)
 
   reset();
 };
-
 
 template <typename T>
 void PP<T>::pick()
@@ -174,4 +173,4 @@ void PP<T>::pick()
 template <typename T>
 void PP<T>::compute_best_GraspPoint(){};
 
-}  // namespace pick_place
+} // namespace pick_place

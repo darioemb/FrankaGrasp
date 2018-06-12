@@ -46,13 +46,19 @@ void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
 
   auto point = grasp_point_msg->grasps[0];
 
+  for(auto x : grasp_point_msg->grasps)
+  {
+    if(std::abs(x.surface_center.y+x.center.y)>std::abs(point.surface_center.y+point.center.y))
+      point=x;
+  }
+
   best_gp.header.frame_id = FRAME_ID;
   best_gp.pose.position.x = (point.surface_center.x + point.center.x) / 2;
   best_gp.pose.position.y = (point.surface_center.y + point.center.y) / 2;
   best_gp.pose.position.z = point.surface_center.z;
 
   // Orientation
-  double r = 0.0, p = 0.0, y = -M_PI / 2; // Rotate the previous pose by -90* about Z
+  double r = 0.0/*M_PI/40*/, p = 0.0, y = -M_PI / 4; // Rotate the previous pose by -90* about Z
   tf::Quaternion q_rot(K_orientation_x, K_orientation_y, K_orientation_z, K_orientation_w), q_tmp, q_new;
 
   q_tmp = tf::createQuaternionFromRPY(r, p, y);
