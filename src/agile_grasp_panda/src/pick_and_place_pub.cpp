@@ -53,12 +53,12 @@ void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
   }
 
   best_gp.header.frame_id = FRAME_ID;
-  best_gp.pose.position.x = (point.surface_center.x + point.center.x) / 2;
-  best_gp.pose.position.y = (point.surface_center.y + point.center.y) / 2;
+  best_gp.pose.position.y = (point.surface_center.x + point.center.x) / 2;
+  best_gp.pose.position.x = (point.surface_center.y + point.center.y) / 2;
   best_gp.pose.position.z = point.surface_center.z;
 
   // Orientation
-  double r = 0.0/*M_PI/40*/, p = 0.0, y = -M_PI / 4; // Rotate the previous pose by -90* about Z
+  double r = 0.0/*M_PI/40*/, p = 0.0, y = M_PI / 4; // Rotate the previous pose by -90* about Z
   tf::Quaternion q_rot(K_orientation_x, K_orientation_y, K_orientation_z, K_orientation_w), q_tmp, q_new;
 
   q_tmp = tf::createQuaternionFromRPY(r, p, y);
@@ -68,6 +68,10 @@ void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
   best_gp.pose.orientation.y = q_new.getAxis().getY();
   best_gp.pose.orientation.z = q_new.getAxis().getZ();
   best_gp.pose.orientation.w = q_new.getW();
+
+  pre_piolo[0].pose.orientation=best_gp.pose.orientation;
+  pre_piolo[1].pose.orientation=best_gp.pose.orientation;
+  pre_piolo[2].pose.orientation=best_gp.pose.orientation;
 
   // best_gp.pose.orientation.x = K_orientation_x;
   // best_gp.pose.orientation.y = K_orientation_y;

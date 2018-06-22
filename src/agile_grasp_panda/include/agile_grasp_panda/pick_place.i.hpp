@@ -160,9 +160,12 @@ void PP<T>::pick()
 
   best_gp.pose.position.x -= pose_obj.pose.position.x;
   best_gp.pose.position.y += pose_obj.pose.position.y;
-  best_gp.pose.position.z += K_height_fingers;
+  best_gp.pose.position.z += K_height_fingers*2;
   move(best_gp);
 
+  best_gp.pose.position.z -= K_height_fingers;
+  move(best_gp);
+  
   cmd_Gripper(K_obj_width, K_obj_width);
   flag.data = true;
   pub_attach_obj.publish(flag);
