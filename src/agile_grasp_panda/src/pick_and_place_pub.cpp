@@ -28,22 +28,6 @@ namespace pick_place
 template <>
 void PP<agile_grasp::GraspsConstPtr>::compute_best_GraspPoint()
 {
-
-  std::ofstream fapproach("/home/sphero/code/FrankaGrasp/data_/approach.data");
-  std::ofstream faxis("/home/sphero/code/FrankaGrasp/data_/axis.data");
-  std::ofstream fcenter("/home/sphero/code/FrankaGrasp/data_/center.data");
-  std::ofstream fsurface("/home/sphero/code/FrankaGrasp/data_/surface.data");
-
-  ROS_INFO("Writing on files...");
-  for (auto x : grasp_point_msg->grasps)
-  {
-    fapproach << x.approach.x << " " << x.approach.y << " " << x.approach.z << "\n";
-    faxis << x.axis.x << " " << x.axis.y << " " << x.axis.z << "\n";
-    fcenter << x.center.x << " " << x.center.y << " " << x.center.z << "\n";
-    fsurface << x.surface_center.x << " " << x.surface_center.y << " " << x.surface_center.z << "\n";
-  }
-  ROS_INFO("Write ended!");
-
   auto point = grasp_point_msg->grasps[0];
 
   for(auto x : grasp_point_msg->grasps)

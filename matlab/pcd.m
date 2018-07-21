@@ -16,8 +16,8 @@ axis = importdata(strcat(version,'/axis.data'),' ',1);
 
 % data: surface center
 % ap=plot3(approach.data(:,1), approach.data(:,2), approach.data(:,3), 'go');
-ce=plot3(center.data(:,1), center.data(:,2), center.data(:,3), 'y*');
-su=plot3(surface.data(:,1), surface.data(:,2), surface.data(:,3), 'g*');
+ce=plot3(center.data(:,1), center.data(:,2), center.data(:,3), 'ro');
+su=plot3(surface.data(:,1), surface.data(:,2), surface.data(:,3), 'bo');
 % ax=plot3(axis.data(:,1), axis.data(:,2), axis.data(:,3), 'go');
 
 legend([ce,su],["center","surface"]);
@@ -31,8 +31,6 @@ for i = 1:size_(1)
        index = i;
    end    
 end
-plot3(center.data(index,1),center.data(index,2),center.data(index,3),'ro');
-plot3(surface.data(index,1),surface.data(index,2),surface.data(index,3),'ko');
 
 % T = [0, 0.445417, 0.895323, 0.215
 % 1, 0, 0, -0.015
