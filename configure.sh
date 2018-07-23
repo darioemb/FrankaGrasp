@@ -25,5 +25,4 @@ git clone https://github.com/NicolaDes/agile_grasp.git
 cd agile_grasp
 git checkout origin/kinetic
 cd ../..
-catkin_make install agile_grasp
-catkin_make 
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build install
