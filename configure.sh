@@ -20,8 +20,6 @@ else
 fi
 
 cd $CURR
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build
-
 cd src
 git clone https://github.com/NicolaDes/agile_grasp.git
 cd agile_grasp
