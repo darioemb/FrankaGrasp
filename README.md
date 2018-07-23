@@ -17,6 +17,7 @@ Terminal3:
 cd FrankaGrasp
 source devel/setup.bash
 roslaunch gpd tutorial2.launch
+```
 Terminal4:
 ```
 cd FrankaGrasp
@@ -29,7 +30,8 @@ cd FrankaGrasp
 source devel/setup.bash
 rosrun pcl_ros pcd_to_pointcloud src/gpd/tutorials/ring12.pcd
 ```
-On the very same terminal5 after press enter in terminal 4 and wait for execution of the algorithm and type
+On the very same terminal5 after press enter in terminal 4 and wait for execution of the algorithm  type:
+
 ```
  rostopic pub --once /from_to std_msgs/Int16MultiArray "layout:
 '''
