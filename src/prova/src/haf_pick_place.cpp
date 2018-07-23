@@ -64,7 +64,6 @@ void PP<haf_result>::compute_best_GraspPoint()
   best_gp.pose.orientation.w = q_new.getW();
   */
 
-
   best_gp.header.frame_id = FRAME_ID;
   best_gp.pose.position.x =conf[2].x; //best configuration!
   best_gp.pose.position.y =conf[2].y;

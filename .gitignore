@@ -4,7 +4,7 @@ devel/
 logs/
 .catkin_tools/
 video/
-panda_moveit_config1/
+panda_moveit_config/
 panda_moveit_config2/
 panda_moveit_config3/
 panda_moveit_config4/
