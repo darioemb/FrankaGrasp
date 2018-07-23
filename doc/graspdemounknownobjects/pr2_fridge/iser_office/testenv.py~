@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+from __future__ import with_statement # for python 2.5
+__author__ = ''
+
+from itertools import izip
+import openravepy
+import time
+if not __openravepy_build_doc__:
+    from openravepy import *
+    from numpy import *
+from optparse import OptionParser
+from openravepy.misc import OpenRAVEGlobalArguments
+
+
+args=None
+parser = OptionParser(description='Shows how to use the grasping.GraspingModel to compute valid grasps for manipulation.')
+OpenRAVEGlobalArguments.addOptions(parser)
+parser.add_option('--scene', action="store",type='string',dest='scene',default='tableshelf.env.xml',
+                      help='Scene file to load (default=%default)')
+parser.add_option('--manipname', action="store",type='string',dest='manipname',default=None,
+	help='Choose the manipulator to perform the grasping for')
+(options, leftargs) = parser.parse_args(args=args)
+env = OpenRAVEGlobalArguments.parseAndCreate(options,defaultviewer=True)
+
+
+env.Load(options.scene)
+
+time.sleep(100000000000)

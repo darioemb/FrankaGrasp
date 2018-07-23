@@ -1,0 +1,3 @@
+<launch> 
+   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find checkerboard_detection)/launch/demo_cameraposeDavid2.vcg"/>
+</launch>

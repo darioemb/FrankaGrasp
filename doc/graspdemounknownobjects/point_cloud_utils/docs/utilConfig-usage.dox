@@ -1,0 +1,29 @@
+\subsubsection usage Usage
+\verbatim
+<node name="util" pkg="point_cloud_utils" type="util">
+  <param name="run" type="bool" value="False" />
+  <param name="debug" type="bool" value="False" />
+  <param name="transform_to_global" type="bool" value="False" />
+  <param name="clean_missing_points" type="bool" value="False" />
+  <param name="remove_plane" type="bool" value="False" />
+  <param name="ransac_tol" type="double" value="0.025" />
+  <param name="ransac_iter" type="int" value="20" />
+  <param name="remove_outlier" type="bool" value="False" />
+  <param name="outlier_mean_k" type="int" value="50" />
+  <param name="outlier_StddevMulThresh" type="double" value="1.0" />
+  <param name="remove_user_plane" type="bool" value="False" />
+  <param name="user_plane_a" type="double" value="0.0" />
+  <param name="user_plane_b" type="double" value="0.0" />
+  <param name="user_plane_c" type="double" value="0.0" />
+  <param name="user_plane_d" type="double" value="1.0" />
+  <param name="estimate_normals" type="bool" value="False" />
+  <param name="normals_k_neighbors" type="int" value="20" />
+  <param name="write_binary" type="bool" value="False" />
+  <param name="write_depth_map" type="bool" value="False" />
+  <param name="write_ascii_precision" type="int" value="12" />
+  <param name="write_next" type="bool" value="False" />
+  <param name="write_file_prefix" type="str" value="pcd" />
+  <param name="write_file_num" type="int" value="0" />
+</node>
+\endverbatim
+

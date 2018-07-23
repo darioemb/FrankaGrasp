@@ -1,0 +1,37 @@
+==========================================================
+==			   PACKAGE: calc_grasppoints_svm   		    ==
+==========================================================
+
+Author: David Fischinger, Vienna University of Technology
+Date:	17.11.2011
+
+
+is calculating grasp points and approach vectors from a point cloud.
+In a first step the point cloud is read from a ROS topic and a heightsgrid is created.
+For each 14x14 square of the hightsgrid a featurevector is created. 
+Using SVM with an existing model file, it is predicted if the center of the square is a good 
+grasping point. For good grasping points the coordinates and the direction of the approach vectors
+are published.
+ 
+
+== Input == 
+
+A point cloud from objects [inside a box]
+(points of box are eliminated)
+
+
+== Output ==
+
+Grasp points and approach vectors which are detected using Support Vector Machines
+(at the beginning the approach vectors are parallel to the z-axis) 
+
+
+
+== LIBSVM ==
+
+We have included LIBSVM to work as our classifier:
+
+Chih-Chung Chang and Chih-Jen Lin, LIBSVM : a library for support
+vector machines. ACM Transactions on Intelligent Systems and
+Technology, 2:27:1--27:27, 2011. Software available at
+http://www.csie.ntu.edu.tw/~cjlin/libsvm

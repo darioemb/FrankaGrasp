@@ -1,0 +1,37 @@
+<launch>
+    <!--remap from="pc2_transformed/pc2" to="SS/points2" /-->
+
+ 
+   <!-- start reconfigure_gui -->
+     <node name="dynamic_reconfigure" pkg="dynamic_reconfigure" type="reconfigure_gui" output="screen" >        
+     </node>
+
+   <!-- start point_cloud_utils -->
+     <node name="point_cloud_utils" pkg="point_cloud_utils" type="util" output="screen" >        
+     </node>
+
+   <!-- start openni_driver -->
+    <include file="$(find openni_camera)/launch/openni_node.launch"/>
+
+    <!-- start Trigger -->
+    <include file="$(find Trigger)/launch/startup.launch"/>
+
+    <!-- start pc_merge -->
+    <include file="$(find toolsdf)/launch/pc_merge_1cam_nobox.launch"/>
+
+    <!-- start calc_grasppoints_svm -->
+    <include file="$(find calc_grasppoints_svm)/launch/calc_grasppoints_svm.launch"/>
+
+    <!-- start pc_to_iv -->
+    <include file="$(find pc_to_iv)/launch/pc_to_iv.launch"/>
+
+    <!-- start openrave_ctrl -->
+    <!--node name="openrave_ctrl" pkg="openrave_ctrl" type="execute_grasp.py" output="screen" respawn="true" -->        
+    <!--/node-->
+
+    <!-- start openrave_ctrl -->
+    <!--node name="image_to_grasp" pkg="openrave_ctrl" type="image_to_grasp.py" output="screen" respawn="true" -->        
+    <!--/node-->
+
+</launch>
+

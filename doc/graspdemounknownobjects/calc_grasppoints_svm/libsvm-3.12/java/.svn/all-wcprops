@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java
+END
+svm_predict.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/svm_predict.java
+END
+svm_toy.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/svm_toy.java
+END
+svm_train.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/svm_train.java
+END
+libsvm.jar
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/libsvm.jar
+END
+test_applet.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/test_applet.html
+END
+svm_scale.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/svm_scale.java
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/java/Makefile
+END

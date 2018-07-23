@@ -1,0 +1,5 @@
+<launch>
+    <node name="pc_merge_1cam_nobox" pkg="toolsdf" type="pc_merge_1cam_nobox" args= "" output="screen" respawn="true">   
+    </node>     
+</launch>
+

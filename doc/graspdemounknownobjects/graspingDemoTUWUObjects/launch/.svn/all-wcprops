@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/v4r/!svn/ver/3493/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch
+END
+sceneupdaterTUWDemo.launch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/v4r/!svn/ver/2511/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/sceneupdaterTUWDemo.launch
+END
+SimulationServer.launch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/v4r/!svn/ver/3493/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/SimulationServer.launch
+END
+startgraspingDemoTUWUObjects.launch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/v4r/!svn/ver/3493/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/startgraspingDemoTUWUObjects.launch
+END
+openni_nodeTUW.launch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/v4r/!svn/ver/2490/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/openni_nodeTUW.launch
+END
+openni_nodeTUWKinect2.launch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/v4r/!svn/ver/2490/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/openni_nodeTUWKinect2.launch
+END
+rviz_demo.launch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/v4r/!svn/ver/2770/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/rviz_demo.launch
+END
+kinect_frames_moving_camera.launch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/v4r/!svn/ver/2490/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/kinect_frames_moving_camera.launch
+END
+kinect_frames_moving_cameraKinect2.launch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/v4r/!svn/ver/2770/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/kinect_frames_moving_cameraKinect2.launch
+END
+startgraspingDemoTUWUObjects2cams.launch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/v4r/!svn/ver/3493/trunk/ros/graspdemounknownobjects/graspingDemoTUWUObjects/launch/startgraspingDemoTUWUObjects2cams.launch
+END

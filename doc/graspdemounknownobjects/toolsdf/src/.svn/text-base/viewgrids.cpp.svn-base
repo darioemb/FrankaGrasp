@@ -1,0 +1,156 @@
+/*
+ * David Fischinger -TUW
+ * 10.11.2011
+ *
+ * input:
+ *   Programm shows pcd-file which is given by argv[1] for argv[2] seconds (default value 10)
+ *
+ * output:
+ * 	 grid displayed with TomGine
+ *
+ * PARAMETERS:
+ * 	TGHEIGHT	height for tomgine output
+ * 	TGWIDTH		width for tomgine output
+ * 	HEIGHT		height (rows) for heightsgrid
+ *	WIDTH		width (cols) for heightsgrid
+ *
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#include <iostream>
+#include <string.h>
+#include <sstream>
+#include <fstream>
+
+#include "pcl/common/common_headers.h"
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include "pcl/io/io.h"
+
+#include <v4r/TomGine/tgTomGine.h>
+#include <time.h>
+#include <unistd.h>
+
+#define TGHEIGHT 600
+#define TGWIDTH 800
+#define HEIGHT 14
+#define WIDTH 14
+
+using namespace std;
+using namespace TomGine;
+
+
+
+void print_heights(float heightsgrid[][WIDTH])
+{
+    //print heights matrix
+	cout << "print heights matrix:" << endl;
+	for (int i = 0; i < HEIGHT; i++){  //rows
+		for (int j = 0; j < WIDTH; j++){  //cols
+			cout << heightsgrid[i][j] << "\t";
+		}
+		cout << "\n";
+	}
+}
+
+
+//Shows heights grid for disc with TomGine
+void show_heights(float heightsmat[][WIDTH], int time_to_sleep) {
+
+	//TomGine
+  	tgTomGineThread tgThread(TGWIDTH, TGHEIGHT);
+	tgRenderModel hboxes[HEIGHT][WIDTH];	//height box: box for visual display of max height per segment
+
+	tgThread.ClearModels();
+	double x_rad=0.1, y_rad=0.1, hgt = 0;
+	for (int row = 0; row < HEIGHT; row++) {
+		for (int col = 0; col < WIDTH; col++) {
+			hboxes[row][col].Clear();															//clear old boxes models!!!
+			hboxes[row][col].m_pose.t.x = row/10.0;		//x-coordinate for one box
+			hboxes[row][col].m_pose.t.y = col/10.0; 	//y-coordinate for one box
+			hgt = 10*heightsmat[row][col];						//height from variable matrix
+			hboxes[row][col].m_pose.t.z = hgt/2;							//z-coordinate for one box
+			tgShapeCreator::CreateBox(hboxes[row][col],x_rad ,y_rad,hgt);	//create box
+			tgThread.AddModel(&hboxes[row][col]);
+		}
+	}
+	tgThread.Update();
+	sleep(time_to_sleep);
+}
+
+
+int main (int argc, char** argv)
+{
+	cout << "\n argc: " << argc << endl;
+	//PARAMETERS
+	int nr_rows = HEIGHT;
+	int nr_cols = WIDTH;
+	char cCurrentPath[FILENAME_MAX];
+	if (!getcwd(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		cout << "Problem reading path" << endl;
+	}
+	stringstream ss;
+	string filename = argv[1];
+	int time_to_sleep = 10;
+	if (argc > 2)
+		time_to_sleep = atoi(argv[2]);
+	cout << "\n time to show grid: " << time_to_sleep << endl;
+
+	if (filename.substr(filename.length()-4, filename.length()) != ".txt"){
+		filename = filename + ".txt";
+	}
+	bool intimage = false;	//indicating if grid is an integral image (which has dimensions WIDTH+1 resp. HEIGHT+1)
+	string iistr("_ii");
+	size_t found = filename.find(iistr);
+	if (found < 10000){		// "_ii found in filename => its a integral image
+		intimage = true;
+		cout << "\n Grid is an IntegralImage\n";
+	}
+	cout << "found: " << found << endl;
+	//cout << "\n filename.substr(_ii): " << filename.substr("_ii") << endl;
+	ss << cCurrentPath << '/' << filename;
+	cout << "fullpath: " << ss.str() << endl;
+ 	string fullpath = ss.str();
+	float heightsgrid[HEIGHT][WIDTH];
+ 	ifstream file_in;
+ 	file_in.open(fullpath.c_str(), ifstream::in);
+ 	if (!file_in)
+ 	{
+ 		cout << "Fail to Open\n";
+ 		return false;
+ 	}
+ 	string line;
+ 	int id_x = -1;
+ 	getline(file_in, line);
+ 	if (intimage)
+ 		getline(file_in, line); ////skip first row with zeros
+
+ 	while (file_in.good())
+ 	{
+  		int start = 0, end = 0;
+  		id_x++;
+
+  		for (int id_y = 0; id_y < WIDTH; id_y++){
+  			if (intimage and id_y == 0) //skip first column if it is an integer image
+  			{
+  				end = line.find("\t", start);
+  				start = end+1;
+  			}
+ 			end = line.find("\t", start);
+ 			heightsgrid[id_x][id_y] = atof(line.substr(start,end-start).c_str()) ;
+ 			start = end+1;
+ 			cout << heightsgrid[id_x][id_y] << "\t";
+ 		}
+  		cout << "\n";
+ 	 	getline(file_in, line);
+ 	}
+ 	file_in.close();
+
+ 	//print_heights(heightsgrid);
+ 	show_heights(heightsgrid, time_to_sleep);
+	return 0;
+}

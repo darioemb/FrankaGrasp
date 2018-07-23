@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk
+END
+callbacks.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/callbacks.cpp
+END
+interface.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/interface.c
+END
+callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/callbacks.h
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/main.c
+END
+interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/interface.h
+END
+svm-toy.glade
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/svm-toy.glade
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/svm-toy/gtk/Makefile
+END

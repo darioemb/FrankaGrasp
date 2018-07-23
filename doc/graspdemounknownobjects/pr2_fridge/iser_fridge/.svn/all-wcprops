@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/src/!svn/ver/1249/applications/pr2_fridge/iser_fridge
+END
+getenv.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/getenv.py
+END
+movehead.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/repos/src/!svn/ver/1253/applications/pr2_fridge/iser_fridge/movehead.py
+END
+exp.env.xml-bkup
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/repos/src/!svn/ver/1242/applications/pr2_fridge/iser_fridge/exp.env.xml-bkup
+END
+exp.env.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/repos/src/!svn/ver/1249/applications/pr2_fridge/iser_fridge/exp.env.xml
+END
+pr2fridge_sim.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/repos/src/!svn/ver/1249/applications/pr2_fridge/iser_fridge/pr2fridge_sim.py
+END
+obj-to-scale.dat
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/obj-to-scale.dat
+END
+gen_placement.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/gen_placement.py
+END
+pr2test.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/pr2test.py
+END
+scale_norotation.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/scale_norotation.py
+END
+groupscale.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/groupscale.py
+END
+pr2fridge_loadtraj.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/repos/src/!svn/ver/1250/applications/pr2_fridge/iser_fridge/pr2fridge_loadtraj.py
+END
+pr2fridge2.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/pr2fridge2.py
+END
+PP_SolveMinAccel_failure.dat
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/PP_SolveMinAccel_failure.dat
+END
+exp.dat
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/exp.dat
+END
+pr2fridge_sim_loadtraj.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/src/!svn/ver/1253/applications/pr2_fridge/iser_fridge/pr2fridge_sim_loadtraj.py
+END
+obj-function.dat
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/obj-function.dat
+END
+pr2fridge.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/repos/src/!svn/ver/1243/applications/pr2_fridge/iser_fridge/pr2fridge.py
+END
+pr2placeoffice.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/repos/src/!svn/ver/1241/applications/pr2_fridge/iser_fridge/pr2placeoffice.py
+END

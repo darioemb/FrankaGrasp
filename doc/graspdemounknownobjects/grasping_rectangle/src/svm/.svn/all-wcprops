@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm
+END
+svm_loqo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_loqo.cpp
+END
+svm_classify.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_classify.cpp
+END
+svm_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_common.h
+END
+kernel.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/kernel.h
+END
+svm_learn.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_learn.cpp
+END
+svm_learn_main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_learn_main.cpp
+END
+svm_learn.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_learn.h
+END
+svm_common.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_common.cpp
+END
+svm_hideo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/src/!svn/ver/509/utils/svmlight/src/svm/svm_hideo.cpp
+END

@@ -1,0 +1,100 @@
+/*
+ * David Fischinger -TUW
+ * 27.10. 2011
+ *
+ * input:
+ *
+ *   reads pcd files from folder
+ *
+ * output:
+ *
+ *   inverses z coordinate: highest point becomes 0, points with z-value equals 0 becomes highest point
+ *   saves output cloud
+ *
+ *	important parameters:
+ *	- path
+ *	- runningNumber values in for-loop
+ *
+ */
+
+
+#include <iostream>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include "pcl/io/io.h"
+#include "std_msgs/String.h"
+#include <string.h>
+#include <sstream>
+
+using namespace std;
+
+
+int main (int argc, char** argv)
+{
+	string path = "/home/grasp/David/GPDatabase/goodgps/twocams/";
+	string path_out = "/home/grasp/David/GPDatabase/badgps/twocams/";
+
+	// loop which reads all pcd-files
+	for (int runningNumber = 1000; runningNumber < 1251; runningNumber++)
+	{
+		cout << "\n runningNumber: " << runningNumber << "\n";
+
+		//loops through the cutted point clouds; hnum is the z-value of the heighest point of each cloud
+		for (int hnum = 6; hnum < 14; hnum++){
+
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out   (new pcl::PointCloud<pcl::PointXYZ>);
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out_x (new pcl::PointCloud<pcl::PointXYZ>);
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out_y (new pcl::PointCloud<pcl::PointXYZ>);
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out_b (new pcl::PointCloud<pcl::PointXYZ>);
+			stringstream ss_file_in;
+
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in (new pcl::PointCloud<pcl::PointXYZ>);
+
+			ss_file_in << path << "pcd_" << runningNumber << "_h" << hnum << ".pcd";
+
+			if (pcl::io::loadPCDFile<pcl::PointXYZ> (ss_file_in.str(), *cloud_in) == -1) //load the file
+			{
+				cout << "\n Couldn't read file (%d) \n" << runningNumber << endl;
+				continue;
+			}
+
+			//manipulate pcd
+			stringstream ss_file_out, ss_file_out_x, ss_file_out_y, ss_file_out_b; //mirrors x-values, y-values and both (_b)
+			ss_file_out   << path_out << "pcd_" << runningNumber << "_h" << hnum << "_i"   << ".pcd";
+			ss_file_out_x << path_out << "pcd_" << runningNumber << "_h" << hnum << "_x_i" << ".pcd";
+			ss_file_out_y << path_out << "pcd_" << runningNumber << "_h" << hnum << "_y_i" << ".pcd";
+			ss_file_out_b << path_out << "pcd_" << runningNumber << "_h" << hnum << "_b_i" << ".pcd";
+
+			pcl::copyPointCloud<pcl::PointXYZ>(*cloud_in, *cloud_out);
+			pcl::copyPointCloud<pcl::PointXYZ>(*cloud_in, *cloud_out_x);
+			pcl::copyPointCloud<pcl::PointXYZ>(*cloud_in, *cloud_out_y);
+			pcl::copyPointCloud<pcl::PointXYZ>(*cloud_in, *cloud_out_b);
+
+			//find z_max
+			double z_max = 0;
+			for (int i = 0; i < cloud_in->points.size(); ++i)
+				if (cloud_in->points[i].z > z_max)
+					z_max = cloud_in->points[i].z;
+
+			//manipulate point clouds
+			for (int i = 0; i < cloud_in->points.size(); ++i)
+			{
+				cloud_out->points[i].z = z_max - cloud_out->points[i].z;
+				//mirror about y axis (=> x values are multiplied by -1)
+				cloud_out_x->points[i].x = -cloud_out_x->points[i].x;
+				cloud_out_x->points[i].z = z_max - cloud_out_x->points[i].z;
+				cloud_out_y->points[i].y = -cloud_out_y->points[i].y;
+				cloud_out_y->points[i].z = z_max - cloud_out_y->points[i].z;
+				cloud_out_b->points[i].x = -cloud_out_b->points[i].x;
+				cloud_out_b->points[i].y = -cloud_out_b->points[i].y;
+				cloud_out_b->points[i].z = z_max - cloud_out_b->points[i].z;
+			}
+
+			pcl::io::savePCDFile(ss_file_out.str(), *cloud_out);
+			pcl::io::savePCDFile(ss_file_out_x.str(), *cloud_out_x);
+			pcl::io::savePCDFile(ss_file_out_y.str(), *cloud_out_y);
+			pcl::io::savePCDFile(ss_file_out_b.str(), *cloud_out_b);
+		}
+	}
+	return (0);
+}

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/v4r/!svn/ver/3731/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/src
+END
+CHaarFeature.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/v4r/!svn/ver/3731/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/src/CHaarFeature.cpp
+END
+CIntImage_to_Featurevec.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/v4r/!svn/ver/3756/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/src/CIntImage_to_Featurevec.cpp
+END
+calc_grasppoints.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/v4r/!svn/ver/3758/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/src/calc_grasppoints.cpp
+END

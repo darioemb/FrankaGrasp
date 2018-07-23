@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows
+END
+libsvmwrite.mexw64
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/libsvmwrite.mexw64
+END
+svm-train.exe
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svm-train.exe
+END
+libsvmread.mexw64
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/libsvmread.mexw64
+END
+svmpredict.mexw32
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svmpredict.mexw32
+END
+libsvm.dll
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/libsvm.dll
+END
+svmtrain.mexw32
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svmtrain.mexw32
+END
+svmpredict.mexw64
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svmpredict.mexw64
+END
+svm-scale.exe
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svm-scale.exe
+END
+libsvmwrite.mexw32
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/libsvmwrite.mexw32
+END
+libsvmread.mexw32
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/libsvmread.mexw32
+END
+svmtrain.mexw64
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svmtrain.mexw64
+END
+svm-predict.exe
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svm-predict.exe
+END
+svm-toy.exe
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/v4r/!svn/ver/3757/trunk/ros/graspdemounknownobjects/calc_grasppoints_svm/libsvm-3.12/windows/svm-toy.exe
+END

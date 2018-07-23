@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/src/!svn/ver/1254/applications/pr2_fridge/iser_office
+END
+tableshelf.env.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/repos/src/!svn/ver/1254/applications/pr2_fridge/iser_office/tableshelf.env.xml
+END
+testenv.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/repos/src/!svn/ver/1254/applications/pr2_fridge/iser_office/testenv.py
+END
+ikeashelf.kinbody.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/repos/src/!svn/ver/1254/applications/pr2_fridge/iser_office/ikeashelf.kinbody.xml
+END
+pr2test.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/repos/src/!svn/ver/1254/applications/pr2_fridge/iser_office/pr2test.py
+END

@@ -1,0 +1,32 @@
+<package>
+  <description brief="openrave_ctrl">
+
+     openrave_ctrl
+
+  </description>
+  <author>General Account</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/openrave_ctrl</url>
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="tf_conversions" />
+  <depend package="tf"/>
+  <depend package="actionlib" />
+  <depend package="pr2_controllers_msgs" />
+  <depend package="move_base_msgs" />
+  <depend package="pr2_gripper_reactive_approach" />
+
+  <!-- do not think that following 5 package dependencies are needed -->
+  <depend package="geometry_msgs" />
+  <depend package="nav_msgs" />
+  <depend package="std_srvs" />
+  <depend package="actionlib_msgs" />
+  <depend package="trajectory_msgs" />
+
+
+
+
+</package>
+
+

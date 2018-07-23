@@ -1,0 +1,9 @@
+<launch>
+	<node name="Trigger" pkg="Trigger" type="trigger2.py" args= "" output="screen">        
+    </node>
+</launch>
+
+
+
+
+

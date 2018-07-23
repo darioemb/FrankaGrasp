@@ -1,0 +1,6 @@
+<launch>
+  <machine name="wam" address="localhost"/>
+  <node machine="wam" name="wam" pkg="openrave_robot_control" type="simulationserver" respawn="false" output="screen" args="--maxvelmult 3.25 --robotfile /opt/ros/graspdemounknownobjects/graspingDemoTUWUObjects/data/TUW.robotfast.xml --jointname arm_link1_Joint --jointname arm_link2_Joint --jointname arm_link3_Joint --jointname arm_link4_Joint --jointname arm_link5_Joint --jointname arm_link6_Joint --jointname arm_link7_Joint --jointname Bone_grasp1_Joint --jointname Bone_grasp2_Joint">
+    <env name="OPENRAVE_DATA" value="$(optenv OPENRAVE_DATA)"/>
+  </node>
+</launch>

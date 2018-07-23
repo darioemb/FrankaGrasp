@@ -1,0 +1,263 @@
+#include <ros/ros.h>
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <sensor_msgs/PointCloud2.h>
+
+// PCL specific includes
+#include <pcl/ros/conversions.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include <pcl_ros/point_cloud.h>
+
+#include <boost/thread/mutex.hpp>
+
+#include <PCLFunctions.hpp>
+
+#include <tf/tf.h>
+#include <tf/transform_broadcaster.h>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
+#include "pcl_ros/transforms.h"
+
+boost::mutex m;
+pcl::PointCloud<pcl::PointXYZ> cloud;
+tf::TransformListener *tf_listener, *tf_listener2;
+cv::Mat image;
+ros::Publisher pub_new_point_cloud;//, pub_coefficients;
+
+
+/*void PointXYZ2PointXYZRC(pcl::PointCloud<pcl::PointXYZ> &temp, pcl::PointCloud<PointXYZRC> &cloud)
+{
+  cloud.points.clear();
+  cloud.width  = temp.width;
+  cloud.height = temp.height;
+  cloud.is_dense = false;
+  cloud.points.resize (cloud.width * cloud.height);
+
+  for(int i = 0; i < cloud.height; ++i)
+  {
+    for(int j = 1; j < cloud.width; ++j)
+    {
+      cloud.points[j+i*cloud.width].x = temp.points[j+i*cloud.width].x;
+      cloud.points[j+i*cloud.width].y = temp.points[j+i*cloud.width].y;
+      cloud.points[j+i*cloud.width].z = temp.points[j+i*cloud.width].z;
+      if(std::isnan(temp.points[j+i*cloud.width].x) ||
+	 std::isnan(temp.points[j+i*cloud.width].y) ||
+	 std::isnan(temp.points[j+i*cloud.width].z))
+      {
+        cloud.points[j+i*cloud.width].r = std::numeric_limits<int>::quiet_NaN();
+        cloud.points[j+i*cloud.width].c = std::numeric_limits<int>::quiet_NaN();
+      }
+      else
+      {
+	cloud.points[j+i*cloud.width].r = i;
+        cloud.points[j+i*cloud.width].c = j;
+      }
+    }
+  }
+}*/
+
+/*void imageCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+  m.lock();
+  cv_bridge::CvImagePtr cv_ptr;
+  try
+  {
+    cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+  }
+  catch (cv_bridge::Exception& e)
+  {
+    ROS_ERROR("cv_bridge exception: %s", e.what());
+    return;
+  }
+
+  cv_ptr->image.copyTo(image);
+
+  m.unlock();
+}*/
+
+
+
+
+// filter point cloud and cut of points outside a defined region
+void filter_point_cloud(pcl::PointCloud<PointXYZRC> &cloud, pcl::PointCloud<PointXYZRC> &cloud_filtered, float x_min=0.6, float x_max=1.3, 
+                        float y_min=-0.6, float y_max=0.0, float z_min=0.04, float z_max = 1.0)
+{
+  // Create the filtering object
+  pcl::PointCloud<PointXYZRC>::Ptr cloud_filtered_z (new pcl::PointCloud<PointXYZRC>);
+  pcl::PointCloud<PointXYZRC>::Ptr cloud_filtered_y (new pcl::PointCloud<PointXYZRC>);
+  pcl::PointCloud<PointXYZRC>::Ptr cloud_filtered_x (new pcl::PointCloud<PointXYZRC>);
+  
+  pcl::PointCloud<PointXYZRC>::Ptr cloud_ptr = cloud.makeShared();
+  pcl::PassThrough<PointXYZRC> pass;
+
+  ROS_INFO("Filtering outliers and cutting region");
+
+  //Filter w.r.t. axis z
+  pass.setInputCloud (cloud_ptr);
+  pass.setFilterFieldName ("z");
+  pass.setFilterLimits (z_min, z_max);
+  pass.filter (*cloud_filtered_z);
+
+  //Filter w.r.t. axis y
+  pass.setInputCloud(cloud_filtered_z);
+
+  pass.setFilterFieldName ("y");
+  pass.setFilterLimits (y_min, y_max);
+  pass.filter (*cloud_filtered_y);
+
+  //Filter w.r.t. axis x
+  pass.setInputCloud(cloud_filtered_y);
+  pass.setFilterFieldName ("x");
+  pass.setFilterLimits (x_min, x_max);
+  pass.filter (*cloud_filtered_x);
+
+  //Create the filtering object
+  pcl::StatisticalOutlierRemoval<PointXYZRC> sor;
+  sor.setInputCloud(cloud_filtered_x);
+  sor.setMeanK(50);
+  sor.setStddevMulThresh (1.0);
+  sor.filter(cloud_filtered);
+}
+
+/*void PointXYZ2PointXYZRC(pcl::PointCloud<pcl::PointXYZ> &p1, pcl::PointCloud<PointXYZRC> &p2,
+		                           pcl::PointCloud<PointXYZRC> &cloud)
+{
+  if(p1.points.size() != p1.points.size())
+  {
+    cloud.points.clear();
+    cloud.width  = (p1.points.size() < p2.points.size() ? p1.points.size() : p2.points.size());
+    cloud.height = 1;
+    cloud.is_dense = false;
+    cloud.points.resize (cloud.width * cloud.height);
+  }
+  else
+  {
+    cloud.points.clear();
+    cloud.width  = p1.width;
+    cloud.height = p2.height;
+    cloud.is_dense = false;
+    cloud.points.resize (cloud.width * cloud.height);
+  }
+
+  for(size_t i = 0; i < cloud.points.size(); ++i)
+  {
+    cloud.points[i].x = p1.points[i].x;
+    cloud.points[i].y = p1.points[i].y;
+    cloud.points[i].z = p1.points[i].z;
+    if(std::isnan(p1.points[i].x) ||
+       std::isnan(p1.points[i].y) ||
+       std::isnan(p1.points[i].z))
+    {
+      cloud.points[i].r = std::numeric_limits<int>::quiet_NaN();
+      cloud.points[i].c = std::numeric_limits<int>::quiet_NaN();
+    }
+    else
+    {
+      cloud.points[i].r = p2.points[i].r;
+      cloud.points[i].c = p2.points[i].c;
+    }
+  }
+}*/
+
+/*void PointXYZRC2PointXYZ(pcl::PointCloud<PointXYZRC> &temp, pcl::PointCloud<pcl::PointXYZ> &cloud)
+{
+  cloud.points.clear();
+  cloud.width  = temp.width;
+  cloud.height = temp.height;
+  cloud.is_dense = false;
+  cloud.points.resize (cloud.width * cloud.height);
+
+  for(size_t i = 0; i < cloud.points.size(); ++i)
+  {
+    cloud.points[i].x = temp.points[i].x;
+    cloud.points[i].y = temp.points[i].y;
+    cloud.points[i].z = temp.points[i].z;
+  }
+}*/
+
+void pointCloudCallback(const pcl::PointCloud<pcl::PointXYZ>::ConstPtr &input)
+{
+  ROS_INFO("preprocessing. funtion pointCloudCallback.");
+  m.lock();
+
+  bool foundTransform = tf_listener->waitForTransform("/world", "/openni_depth_optical_frame",  input->header.stamp, ros::Duration(3.0));
+  if (foundTransform)
+  {
+    ROS_INFO("Transform point cloud: openni_depth_optical_frame to world found.");
+    pcl_ros::transformPointCloud("/world", *input, cloud, *tf_listener);
+    cloud.header = input->header;
+  }
+  else {
+    ROS_WARN("No transformation found.");
+  }
+
+
+  if(!cloud.size())
+  {
+    ROS_INFO("toolsdf/preprocessing: cloud is empty");
+    return;
+  }
+  pcl::PointCloud<pcl::PointXYZ> new_point_cloud = cloud;
+  m.unlock();
+
+  // filter point cloud
+  pcl::PointCloud<PointXYZRC> cloud_xyrc;
+  PointXYZ2PointXYZRC(new_point_cloud,cloud_xyrc);
+
+  // filter point cloud
+
+  pcl::PointCloud<PointXYZRC> cloud_filtered, cloud_final;
+  filter_point_cloud(cloud_xyrc,cloud_filtered);
+
+  // detect box
+
+  // transfer point cloud back
+  m.lock();
+  foundTransform = tf_listener->waitForTransform("/openni_depth_optical_frame", "/world", ros::Time::now(), ros::Duration(3.0));
+
+  if (foundTransform)
+  {
+    ROS_INFO("Transform point cloud: openni_depth_optical_frame to world found.");
+    pcl::PointCloud<pcl::PointXYZ> p1, p2;
+    PointXYZRC2PointXYZ(cloud_filtered,p1);
+    p1.header.frame_id = "/world";
+    pcl_ros::transformPointCloud("/openni_depth_optical_frame",p1,p2,*tf_listener);
+    PointXYZ2PointXYZRC(p2,cloud_filtered,cloud_final);
+    cloud_final.header.frame_id = "/openni_depth_optical_frame";
+  }
+  else {
+    ROS_WARN("No transformation found.");
+  }
+
+  // publish point cloud indices without plane and without box
+  pub_new_point_cloud.publish(cloud_final);
+  m.unlock();
+
+}
+
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "preprocessing");
+  ros::NodeHandle n;
+  tf_listener = new tf::TransformListener();
+  
+  ROS_INFO("ROS: node preprocessing started");
+
+  //image_transport::ImageTransport it_image(nh);
+  //image_transport::Subscriber sub_image = it_image.subscribe("/camera/rgb/image_color", 1, &MainWindow::imageCallback, this);
+  // Create a ROS subscriber for the input point cloud
+  ros::Subscriber sub_points = n.subscribe<pcl::PointCloud<pcl::PointXYZ> >("/SS/camera/depth/points", 1, &pointCloudCallback);
+  ros::Rate loop_rate(10);
+  //ros::Publisher attention_points_pub = nh.advertise<attention::AttentionPoints>("attantion_points",1);
+
+  pub_new_point_cloud = n.advertise<pcl::PointCloud<PointXYZRC> > ("/new_point_cloud", 1);
+
+  ros::spin();
+}

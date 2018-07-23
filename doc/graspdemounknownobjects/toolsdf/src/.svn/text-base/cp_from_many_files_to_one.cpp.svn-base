@@ -1,0 +1,82 @@
+/*
+ * David Fischinger -TUW
+ * 16.11.2011
+ *
+ * USAGE:
+ * 	- generate ListOfFVFilenames.txt in correct folder
+ * 	- change all Parameters
+ * 	- execute
+ *
+ *
+ * input:
+ *   Filenames (generated with: "ls pcd* -1 > ListOfFVFilenames.txt"
+ *   executed in /featurevec folder)
+ *   with names of files with feature vector
+ *
+ * output:
+ *   One file including all featurevectors from the different input files
+ *
+ *   PARAMETERS:
+ *    path =    "/home/grasp/David/GPDatabase/badgps/twocams/badmanual/featurevec/";
+ *    pathfull_list_of_filenames = path + "ListOfFVFilenames.txt";
+ *    pathout_full = "/home/grasp/David/GPDatabase/badgps/twocams/badmanual/featurevec/fv_folderall.txt";
+ */
+
+
+//#include <boost/thread/thread.hpp>
+#include <iostream>
+#include <string.h>
+#include <sstream>
+#include <fstream>
+
+using namespace std;
+
+
+int main (int argc, char** argv)
+{
+
+	string path =    "/home/grasp/David/GPDatabase/badgps/twocams/badmanual/featurevec/";
+	string pathfull_list_of_filenames = path + "ListOfFVFilenames.txt";
+	string pathout_full = "/home/grasp/David/GPDatabase/badgps/twocams/badmanual/featurevec/fv_folderall.txt";
+
+	ofstream file_out(pathout_full.c_str());
+ 	ifstream filenames_featurevec;	//txt-file with all feature vectors filenames inside
+ 	filenames_featurevec.open(pathfull_list_of_filenames.c_str());
+
+ 	int cnt =0;
+	// loop which reads all feature vector files
+	string filename_cur_fv; //filename of current feature vector .txt-file
+
+
+	getline(filenames_featurevec, filename_cur_fv);
+	while (!filenames_featurevec.eof())
+	{
+		cout << ++cnt << "\n" << filename_cur_fv << endl;
+		stringstream ss_file_in;	//feature vector file in
+		ss_file_in << path << filename_cur_fv;
+
+		//load grid
+		ifstream file_cur_fv((ss_file_in.str()).c_str());
+		if (!file_cur_fv){
+			cout << "\n PROBLEM opening file: " << ss_file_in.str() << endl;
+		}
+		cout << "\n " << ss_file_in.str() << endl;
+		string line;
+		int id_x = -1;
+		getline(file_cur_fv, line);
+		/* cann be used if files have more than one line
+		 * while (file_cur_fv.good())
+		{
+	  		getline(file_cur_fv, line);
+		}*/
+
+		//copy/write line in new output file
+		file_out << line << "\n";
+
+		getline(filenames_featurevec, filename_cur_fv);
+	}
+	file_out.close();
+	filenames_featurevec.close();
+	return 0;
+}
+

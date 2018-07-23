@@ -1,0 +1,4 @@
+<launch>
+  <node name="sceneupdaterTUWDemo" pkg="graspingDemoTUWUObjects" type="sceneupdaterTUWDemo.py" respawn="false" output="screen">
+  </node>
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+  <!-- NEW next line! -->
+  <node pkg="tf" type="static_transform_publisher" name="armrootcorner_to_checkerboard2" args="0.431 -0.290 0.02 0 0 0 arm_root_corner checkerboard2 100" />
+
+  <node pkg="tf" type="static_transform_publisher" name="connection_moving_camera_openni2" args="0 0 0 0.785, -1.570, 0.785 /moving_camera2 /openni_camera2 100" />  
+  <node pkg="tf" type="static_transform_publisher" name="kinect2_base_link" args="0 -0.0 0 0 0 0  /openni_camera2 /openni_depth_frame2 100" />  
+  <node pkg="tf" type="static_transform_publisher" name="kinect2_base_link1" args="0 -0.0 0 0 0 0  /openni_camera2 /openni_rgb_frame2 100" />  
+  <node pkg="tf" type="static_transform_publisher" name="kinect2_base_link2" args="0 0 0 -1.57 0 -1.57 /openni_depth_frame2 /openni_depth_optical_frame2 100" />  
+  <node pkg="tf" type="static_transform_publisher" name="kinect2_base_link3" args="0 0 0 -1.57 0 -1.57 /openni_rgb_frame2 /openni_rgb_optical_frame2 100" />  
+</launch>

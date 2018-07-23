@@ -1,0 +1,91 @@
+/*
+ * David Fischinger -TUW
+ * 18.11.2011
+ *
+ * input:
+ *   Filenames (generated with: ls pcd* -1 > ListOfHeightsGridFilenames.txt
+ *   executed in heights folder)
+ *   with height grids of pointclouds are read
+ *
+ * output:
+ *   Files with integral images of these grids are saved in the given folder.
+ *
+ *   PARAMETERS:
+ *
+ *    TGHEIGHT 600
+ *    TGWIDTH 800
+ *    HEIGHT 14
+ *    WIDTH 14
+ *    path =    "/home/grasp/David/GPDatabase/goodgps/twocams/heights/tmp/";
+ *    pathfull_list_of_filenames = path + "ListOfHeightsGridFilenames.txt";
+ *    pathout = "/home/grasp/David/GPDatabase/goodgps/twocams/intimages/tmp/";
+ *
+ */
+
+
+#include <iostream>
+#include <string.h>
+#include <sstream>
+#include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+
+#define HEIGHT 32
+#define WIDTH 44
+
+using namespace std;
+
+
+int main (int argc, char** argv)
+{
+	//PARAMETERS
+	string path =    "/usr/lib/libsvm/libsvm-3.1/output";
+
+	//open file
+	ifstream file_in(path.c_str());
+
+
+	cout << "\n GRASPGRID: \n";
+	int graspsgrid[HEIGHT][WIDTH];
+	int graspseval[HEIGHT][WIDTH];
+	string line;
+	int id_x = -1;
+	getline(file_in, line);
+	for (int row = 0; row < HEIGHT; row++){
+		for (int col = 0; col < WIDTH; col++){
+			if ( row < 7 or col < 7 or row >= HEIGHT -7 or col >= WIDTH - 7){
+				graspsgrid[row][col] = -1;
+				cout << graspsgrid[row][col] << "\t";
+			} else {
+				graspsgrid[row][col] = atoi(line.substr(0,2).c_str());
+				cout << graspsgrid[row][col] << "\t";
+				getline(file_in, line);
+			}
+		}
+		cout << "\n";
+	}
+
+	cout << "graspseval[row][col]" << "\n\n";
+	int w1=1, w2=2,w3=3,w4=4,w5=0;//weights: direct grasp neighbars have more impact
+	for (int row = 0; row < HEIGHT; row++){
+		for (int col = 0; col < WIDTH; col++){
+			if ( graspsgrid[row][col] < 0 ){
+				graspseval[row][col] = -10;
+			} else {
+				graspseval[row][col] =
+						w1*graspsgrid[row-2][col-2]+w2*graspsgrid[row-2][col-1]+w3*graspsgrid[row-2][col]+w2*graspsgrid[row-2][col+1]+w1*graspsgrid[row-2][col+2]+ //row-2
+						w2*graspsgrid[row-1][col-2]+w3*graspsgrid[row-1][col-1]+w4*graspsgrid[row-1][col]+w3*graspsgrid[row-1][col+1]+w2*graspsgrid[row-1][col+2]+ //row -1
+						w3*graspsgrid[row][col-2] + w4*graspsgrid[row][col-1] + w5*graspsgrid[row][col] + w4*graspsgrid[row][col+1] + w3*graspsgrid[row][col+2] + //row
+						w2*graspsgrid[row+1][col-2]+w3*graspsgrid[row+1][col-1]+w4*graspsgrid[row+1][col]+w3*graspsgrid[row+1][col+1]+w2*graspsgrid[row+1][col+2]+ //row +1
+						w1*graspsgrid[row+2][col-2]+w2*graspsgrid[row+2][col-1]+w3*graspsgrid[row+2][col]+w2*graspsgrid[row+2][col+1]+w1*graspsgrid[row+2][col+2]; //row +2
+
+			}
+			cout << graspseval[row][col] << "\t";
+		}
+		cout << "\n";
+	}
+	file_in.close();
+	return 0;
+}
+

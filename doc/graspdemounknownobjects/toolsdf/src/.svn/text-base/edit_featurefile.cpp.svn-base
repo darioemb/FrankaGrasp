@@ -1,0 +1,91 @@
+/*
+ * David Fischinger -TUW
+ * 03.11.2011
+ *
+ * input:
+ *   reads file with saved features
+
+ * output:
+ *   writes file with changed features (mirrord wrt row 6/7)
+ *
+ *
+ *
+ */
+
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <stdlib.h>
+
+using namespace std;
+
+
+int main (int argc, char** argv)
+{
+	//PARAMETERS BEGIN
+	int startrow = 138;
+	int endrow = 363;
+	ifstream infile("/home/grasp/temp/temp_features.txt");
+	ofstream outputfile("/home/grasp/temp/temp_features_out.txt");
+	//PARAMETERS END
+
+	string line;
+
+
+
+
+
+	usleep(100000);
+
+	//skip given number of rows and copy them in outputfile
+	for (int skiprow = 0; skiprow  < startrow; skiprow++) {
+        getline(infile, line);
+    	//outputfile << line << endl;
+    }
+
+
+	int corners[16];
+	double weights[4];
+	int cnt = startrow;
+	while (!infile.eof() and cnt <= endrow)
+	{
+		cnt++;
+		stringstream newline;
+		getline (infile,line);
+		int start=0,end=0;
+		for (int i = 0; i < 16; i++){
+			end = line.find("\t",start);
+			corners[i] = atoi(line.substr(start,end-start).c_str()); //for region 1
+			start=end+1;
+		}
+		for (int i = 16; i < 20; i++){
+			end = line.find("\t",start);
+			weights[i-16] = atof(line.substr(start,end-start).c_str()); //for region 1
+			start=end+1;
+		}
+
+		// write newline
+		for (int i = 0; i < 16; i++){
+			if (i == 2 or i == 6){
+				newline << 13-corners[i+1] << "\t";
+			} else if (i == 3 or i == 7)
+			{
+				newline << 13-corners[i-1] << "\t";
+			} else
+				newline << corners[i] << "\t";
+		}
+		for (int i = 0; i < 4; i++){
+			newline << weights[i] << "\t";
+		}
+
+		outputfile << newline.str() << endl;
+
+	}
+	infile.close();
+	outputfile.close();
+
+	cout << "Done" << endl;
+	return (0);
+}

@@ -1,0 +1,8 @@
+<launch>
+    <!--needed only for EHAF method <=> when calc_grasp_points package is used --> 
+    <node pkg="tf" type="static_transform_publisher" name="table_center" args="0.8 0 0.67 0 0 0 /base_footprint /table_center_frame 100" /> 
+    <node pkg="tf" type="static_transform_publisher" name="world_or" args="-0.3 1.4 0.01 3.1416 0 0 /base_footprint /world_or_frame 100" />
+    <node name="pc_merge_1cam_nobox" pkg="toolsdf" type="pc_merge_1cam_nobox" args= "" output="screen" respawn="true">   
+    </node>     
+</launch>
+

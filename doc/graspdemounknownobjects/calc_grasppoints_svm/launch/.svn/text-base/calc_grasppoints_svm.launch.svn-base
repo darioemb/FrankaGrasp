@@ -1,0 +1,9 @@
+<launch>
+	<node name="calc_grasppoints_svm" pkg="calc_grasppoints_svm" type="calc_grasppoints">        
+    </node>
+</launch>
+
+
+
+
+

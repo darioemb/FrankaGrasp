@@ -1,0 +1,16 @@
+<package>
+  <description brief="Trigger">
+
+     Trigger
+
+  </description>
+  <author>walter</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/Trigger</url>
+  <depend package="rospy"/>
+  <depend package="sensor_msgs"/>
+
+</package>
+
+

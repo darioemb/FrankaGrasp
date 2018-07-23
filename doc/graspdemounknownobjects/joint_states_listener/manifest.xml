@@ -1,0 +1,16 @@
+<package>
+  <description brief="joint_states_listener">
+
+     joint_states_listener
+
+  </description>
+  <author>General Account</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/joint_states_listener</url>
+  <depend package="rospy"/>
+  <depend package="sensor_msgs"/>
+
+</package>
+
+

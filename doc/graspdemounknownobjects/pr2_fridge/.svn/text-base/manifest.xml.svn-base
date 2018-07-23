@@ -1,0 +1,27 @@
+<package>
+  <description brief="pr2_fridge">
+
+     pr2_fridge
+
+  </description>
+  <author>Yun Jiang4161 Upson Hall(607) 255-1149</author>
+  <license>BSD</license>
+  <depend package="roscpp" />
+  <depend package="rospy" />
+  <depend package="std_srvs" />
+  <depend package="std_msgs" />
+  <depend package="geometry_msgs" />
+  <depend package="nav_msgs" />
+  <depend package="actionlib" />
+  <depend package="actionlib_msgs" />
+  <depend package="pr2_controllers_msgs" />
+  <depend package="move_base_msgs" />
+  <depend package="trajectory_msgs" />
+  <depend package="orrosplanning" />
+  <depend package="pr2_gripper_reactive_approach" />
+  <depend package="tf" />
+  <depend package="tf_conversions" />  
+
+</package>
+
+
