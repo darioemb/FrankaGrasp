@@ -34,5 +34,5 @@ On the very same terminal5 after press enter in terminal 4 and wait for executio
 
 ```
  rostopic pub --once /from_to std_msgs/Int16MultiArray "layout:
-'''
-add after data: in terminal [0,1] for the robot to pick the ring from position 0 to place in position 1, [1,2] to pick in position 1 place in position 2 and so for.
+```
+from the terminal add after data:  [0,1] for the robot to pick the ring from position 0 to place in position 1, [1,2] to pick in position 1 place in position 2 and so for.
