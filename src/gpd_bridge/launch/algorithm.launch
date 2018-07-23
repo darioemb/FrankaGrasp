@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find gpd)/launch/tutorial2.launch" />   
+    <node name="pick_and_place_pub" pkg="gpd_bridge" type="pick_and_place_pub" output="screen" >
+    </node>
+</launch>
