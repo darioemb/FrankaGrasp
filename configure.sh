@@ -1,6 +1,6 @@
 CURR=$PWD
 
-echo -e "\ee[33mInstalling panda-moveit-config dependencies\e[39m"
+echo -e "\e[33mInstalling panda-moveit-config dependencies\e[39m"
 sudo apt-get install ros-kinetic-panda-moveit-config
 echo -e "\e[33mInstalled dependencies.\e[39m"
 
@@ -23,8 +23,9 @@ cd $CURR
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=$CURR/lib/libfranka/build
 
 cd src
-git clone --recursive https://github.com/utexas-bwi/agile_grasp.git
+git clone https://github.com/NicolaDes/agile_grasp.git
 cd agile_grasp
 git checkout origin/kinetic
 cd ../..
-catkin_make install
+catkin_make install agile_grasp
+catkin_make 
