@@ -50,7 +50,7 @@ roslaunch haf_grasping haf_grasping_all.launch
 rostopic pub /haf_grasping/input_pcd_rcs_path std_msgs/String "$(rospack find haf_grasping)/data/pcd2.pcd" -1
 ```
 
-###haf_pick_place pkg ROS:
+### haf_pick_place pkg ROS:
 ```
 $1: roslaunch prova vrep.launch
 $2: roslaunch haf_grasping haf_grasping_all.launch 
