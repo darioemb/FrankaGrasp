@@ -1,5 +1,0 @@
-<launch>
-    <node name="preprocessing" pkg="toolsdf" type="preprocessing" args= "" output="screen">        
-    </node>
-</launch>
-

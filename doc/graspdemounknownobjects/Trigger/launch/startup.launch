@@ -1,9 +1,0 @@
-<launch>
-	<node name="Trigger" pkg="Trigger" type="trigger_cornell.py" args= "" output="screen">        
-    </node>
-</launch>
-
-
-
-
-

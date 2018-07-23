@@ -1,6 +1,0 @@
-<launch>
-    <!--remap from="pc2_transformed/pc2" to="SS/points2" /-->
-    <node name="pc_to_iv" pkg="pc_to_iv" type="pc_to_iv" output="screen" respawn="true">        
-    </node>
-</launch>
-

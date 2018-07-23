@@ -1,5 +1,0 @@
-<launch>
-    <node name="pc_merge_with_basket" pkg="toolsdf" type="pc_merge_2cams_nobox" args= "" output="screen" respawn="true">   
-    </node>     
-</launch>
-

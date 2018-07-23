@@ -1,7 +1,0 @@
-Package is controlling robot in openrave and also controlling the real robot.
-
-is taking grasps as input and is executing them on pr2 in openrave and real.
-
-important files to look at at beginning: 
-pr2fridge_loadtraj.py
-pr2fridge.py
