@@ -7,7 +7,7 @@ echo -e "\e[33mInstalled dependencies.\e[39m"
 echo -e "\e[33mCOMPILING libfranka...\e[39m"
 cd libfranka
 if [ -d "lib/libfranka/build" ]; then
-	echo -e "\e[33mDirectory build found or launch configure.sh libfranka. Clean your workspace or leave so it is and continue manually!!\e[39m"
+	echo -e "\e[33mDirectory build found. Clean your workspace or leave so it is and continue manually!!\e[39m"
 elif [ "$1" == "libfranka" ]; then
 	cd lib/libfranka
 	mkdir build
@@ -17,6 +17,8 @@ elif [ "$1" == "libfranka" ]; then
 	cmake --build .
 
 	echo -e "\e[32m######### libfranka compiled correctly!\e[39m"
+else
+	echo -e "\e[32mNo libfranka required! exiting from libfranka installation!\e[39m"
 fi
 
 cd $CURR
